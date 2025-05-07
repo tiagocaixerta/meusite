@@ -1,35 +1,21 @@
 import factory
-from faker import Factory as FakerFactory
-
-from django.contrib.auth.models import User
-from django.utils.timezone import now
-
 from blog.models import Post
-
-faker = FakerFactory.create()
+from django.contrib.auth.models import User
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    email = factory.Faker("safe_email")
-    username= factory.LazyAttribute(lambda x: faker.name())
-
-    @classmethod
-    def _prepare(cls, create, **kwargs):
-        password = kwargs.pop('password', None)   
-        user = super(UserFactory, cls)._prepare(create, **kwargs) 
-        if password:
-            user.set_password(password)
-            if create:
-                user.save()
-        return user
+    username = factory.Sequence(lambda n: f'user{n}')
+    email = factory.LazyAttribute(lambda o: f'{o.username}@example.com')
+    password = factory.PostGenerationMethodCall('set_password', '123456')
 
 class PostFactory(factory.django.DjangoModelFactory):
-    title = factory.LazyAttribute(lambda x: faker.sentence())
-    created_on = factory.LazyAttribute(lambda x: now())
-    author= factory.SubFactory(UserFactory)
-    status = 0
-
     class Meta:
-        model =  Post
+        model = Post
+
+    title = factory.Sequence(lambda n: f'Post Title {n}')
+    # Remove the slug generation here if it's auto-generated
+    # slug = factory.Faker('slug')  # This line can be removed if slug is auto-generated
+    author = factory.SubFactory(UserFactory)
+    status = 1
