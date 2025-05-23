@@ -3,10 +3,17 @@
 import os
 import sys
 
+HEAD
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meusite.settings')
-    try:
+
+
+def main():
+    """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'meublog_project.settings')
+ (Implementa estrutura base do blog e configura a branch post-model)
+try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(
@@ -16,5 +23,9 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+HEAD
+
+
+ c36e5b6 (Implementa estrutura base do blog e configura a branch post-model)
 if __name__ == '__main__':
     main()
