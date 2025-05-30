@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <h1>Posts Recentes</h1>
+  <ul>
+    {% for post in posts %}
+      <li>
+        <a href="{% url 'post_detail' post.slug %}">{{ post.titulo }}</a>
+        <p>{{ post.criado_em }}</p>
+      </li>
+    {% empty %}
+      <li>Nenhum post encontrado.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
